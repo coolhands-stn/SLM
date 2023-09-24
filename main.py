@@ -1,9 +1,9 @@
-from tensorflow.keras.models import load_model
 import streamlit as st
-from keras.preprocessing.sequence import pad_sequences
+import tensorflow as tf
 from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
+import pickle 
 import numpy as np
-import pickle
 
 
 st.title(" Next Word Predictor For Shona ")
@@ -20,7 +20,7 @@ encoded_data = tokenizer.texts_to_sequences([words])[0]
 sequences = pad_sequences([encoded_data], maxlen=5, padding='pre')
 
 # Load the model
-model = load_model("best_model1.h5")
+model = tf.keras.models.load_model("best_model1.h5")
 predicted_probs = model.predict(sequences)
 predicted = np.argmax(predicted_probs, axis=-1)
     
