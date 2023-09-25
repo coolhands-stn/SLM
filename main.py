@@ -27,7 +27,6 @@ def predict_next_words(model, tokenizer, words, num_words=1):
         sequence = pad_sequences([sequence], maxlen=5, padding='pre')
         
         # Predict the next word
-        model = tf.keras.models.load_model("first_model.h5")
         predicted_probs = model.predict(sequence, verbose=0)
         predicted = np.argmax(predicted_probs, axis=-1)
         
@@ -44,4 +43,7 @@ def predict_next_words(model, tokenizer, words, num_words=1):
     return ' '.join(text.split(' ')[-num_words:])
 
 
-st.write('izwi rinotevera : ', next_word)
+model = tf.keras.models.load_model("first_model.h5")
+
+predicted_words = predict_next_words(model, tokenizer, words, num_words=1)
+st.write('izwi rinotevera : ', predicted_words)
