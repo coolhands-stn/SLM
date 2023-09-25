@@ -32,4 +32,4 @@ for word, index in tokenizer.word_index.items():
         output_word = word
         break
 
-st.write('your next word is', next_word)
+st.write('izwi rinotevera : ', next_word)
