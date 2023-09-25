@@ -32,6 +32,7 @@ def predict_next_words(model, tokenizer, words, num_words=1):
         
         # Convert the predicted word index to a word
         output_word = ""
+        text = ""
         for word, index in tokenizer.word_index.items():
             if index == predicted:
                 output_word = word
