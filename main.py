@@ -9,28 +9,38 @@ st.title("Stany Ganyani R204442S")
 st.title("Next Word Predictor For Shona")
 
 words = st.text_input("Nyora Apa")
-next_word = ""
 
 # st.write(words)
 
 with open('tokenizer.pickle','rb') as tokenizer_file:
     tokenizer = pickle.load(tokenizer_file)
 
-# Convert Text to numerical data
-encoded_data = tokenizer.texts_to_sequences([words])[0]
-# Create sequences
-sequences = pad_sequences([encoded_data], maxlen=5, padding='pre')
 
-# Load the model
-model = tf.keras.models.load_model("first_model.h5")
-predicted_probs = model.predict(sequences)
-predicted = np.argmax(predicted_probs, axis=-1)
-    
-# Convert the predicted word index to a word
+model =  tf.keras.models.load_model('second_model.h5')
 
-for word, index in tokenizer.word_index.items():
-    if index == predicted:
-        next_word = word
-        break
+def predict_next_words(model, tokenizer, text, num_words=1):
+    for _ in range(num_words):
 
-st.write('izwi rinotevera : ', next_word)
+        encoded_data = tokenizer.texts_to_sequences([text])[0]
+        sequence = pad_sequences([encoded_data], maxlen=5, padding='pre')
+
+
+        predicted_probs = model.predict(sequence, verbose=0)
+        predicted = np.argmax(predicted_probs, axis=-1)
+
+
+        next_word = ""
+        for word, index in tokenizer.word_index.items():
+            if index == predicted:
+                next_word = word
+                break
+
+
+        text += " " + next_word
+
+    return ' '.join(text.split(' ')[-num_words:])
+
+
+if st.button("Predict"):
+    predicted_words = predict_next_words(model, tokenizer, words, num_words=1)
+    st.write(f"mazwi anotevera: {predicted_words}")
