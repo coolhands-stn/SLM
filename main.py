@@ -20,16 +20,28 @@ encoded_data = tokenizer.texts_to_sequences([words])[0]
 # Create sequences
 sequences = pad_sequences([encoded_data], maxlen=5, padding='pre')
 
-# Load the model
-model = tf.keras.models.load_model("first_model.h5")
-predicted_probs = model.predict(sequences)
-predicted = np.argmax(predicted_probs, axis=-1)
-    
-# Convert the predicted word index to a word
-next_word = ""
-for word, index in tokenizer.word_index.items():
-    if index == predicted:
-        next_word = word
-        break
+def predict_next_words(model, tokenizer, words, num_words=1):
+    for _ in range(num_words):
+        # Tokenize and pad the text
+        sequence = tokenizer.texts_to_sequences([words])[0]
+        sequence = pad_sequences([sequence], maxlen=5, padding='pre')
+        
+        # Predict the next word
+        model = tf.keras.models.load_model("first_model.h5")
+        predicted_probs = model.predict(sequence, verbose=0)
+        predicted = np.argmax(predicted_probs, axis=-1)
+        
+        # Convert the predicted word index to a word
+        output_word = ""
+        for word, index in tokenizer.word_index.items():
+            if index == predicted:
+                output_word = word
+                break
+
+        # Append the predicted word to the text
+        text += " " + output_word
+
+    return ' '.join(text.split(' ')[-num_words:])
+
 
 st.write('izwi rinotevera : ', next_word)
