@@ -29,7 +29,7 @@ predicted = np.argmax(predicted_probs, axis=-1)
 next_word = ""
 for word, index in tokenizer.word_index.items():
     if index == predicted:
-        output_word = word
+        next_word = word
         break
 
 st.write('izwi rinotevera : ', next_word)
