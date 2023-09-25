@@ -20,7 +20,7 @@ encoded_data = tokenizer.texts_to_sequences([words])[0]
 sequences = pad_sequences([encoded_data], maxlen=5, padding='pre')
 
 # Load the model
-model = tf.keras.models.load_model("best_model1.h5")
+model = tf.keras.models.load_model("first_model.h5")
 predicted_probs = model.predict(sequences)
 predicted = np.argmax(predicted_probs, axis=-1)
     
