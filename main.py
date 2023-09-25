@@ -24,10 +24,8 @@ model = tf.keras.models.load_model("best_model1.h5")
 predicted_probs = model.predict(sequences)
 predicted = np.argmax(predicted_probs, axis=-1)
     
-# Convert the predicted word index to a word
-
+ # Convert the predicted word index to a word
 output_word = ""
-
 for word, index in tokenizer.word_index.items():
     if index == predicted:
         output_word = word
