@@ -9,6 +9,7 @@ st.title("Stany Ganyani R204442S")
 st.title("Next Word Predictor For Shona")
 
 words = st.text_input("Nyora Apa")
+next_word = ""
 
 # st.write(words)
 
@@ -26,7 +27,7 @@ predicted_probs = model.predict(sequences)
 predicted = np.argmax(predicted_probs, axis=-1)
     
 # Convert the predicted word index to a word
-next_word = ""
+
 for word, index in tokenizer.word_index.items():
     if index == predicted:
         next_word = word
