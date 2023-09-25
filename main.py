@@ -15,16 +15,11 @@ words = st.text_input("Nyora Apa")
 with open('tokenizer.pickle','rb') as tokenizer_file:
     tokenizer = pickle.load(tokenizer_file)
 
-# Convert Text to numerical data
-encoded_data = tokenizer.texts_to_sequences([words])[0]
-# Create sequences
-sequences = pad_sequences([encoded_data], maxlen=5, padding='pre')
-
 def predict_next_words(model, tokenizer, words, num_words=1):
     for _ in range(num_words):
         # Tokenize and pad the text
-        sequence = tokenizer.texts_to_sequences([words])[0]
-        sequence = pad_sequences([sequence], maxlen=5, padding='pre')
+        encoded_data = tokenizer.texts_to_sequences([words])[0]
+        sequence = pad_sequences([encoded_data], maxlen=5, padding='pre')
         
         # Predict the next word
         predicted_probs = model.predict(sequence, verbose=0)
